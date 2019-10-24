@@ -43,7 +43,7 @@ export class AuthService {
   private usertoken: Usertoken;
   private lastLoginErrorMessage: string;
 
-  constructor() { 
+  constructor() {
     this.usertoken = {
       username: '',
       token: ''
@@ -53,13 +53,12 @@ export class AuthService {
 
   /**
    * Método que simula un proceso de login. Las credenciales correctas son usuario: curso, password: ionic
-   * 
-   * @param user 
+   *
+   * @param user
    * @return Observable<boolean> Observable que emite true si el proceso de login ha ido bien y emite false si ha ido mal
    */
   login(user: {username: string, password: string}): Observable<boolean> {
-    
-    if (user.username === 'curso' && user.password === 'ionic') { 
+    if (user.username === 'curso' && user.password === 'ionic') {
       // Simulamos que hemos recibido la respuesta ResponseLoginOk$
       // Cambiamos la respuesta por un true
       return ResponseLoginOk$.pipe(
@@ -67,7 +66,7 @@ export class AuthService {
           respuesta => {
             this.usertoken = respuesta.usertoken;
             this.lastLoginErrorMessage = null;
-            localStorage.setItem('username',respuesta.usertoken.username);
+            localStorage.setItem('username', respuesta.usertoken.username);
             localStorage.setItem('token', respuesta.usertoken.token);
             return true;
           })
@@ -96,7 +95,7 @@ export class AuthService {
   }
 
   isLogged(): boolean {
-    if(localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       return true;
     } else {
       return false;

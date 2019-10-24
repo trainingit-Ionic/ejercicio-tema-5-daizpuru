@@ -8,6 +8,8 @@ const routes: Routes = [
   { path: 'providers', loadChildren: './pages/private/providers/providers.module#ProvidersPageModule' },
   { path: 'orders', loadChildren: './pages/private/orders/orders.module#OrdersPageModule' },
   { path: 'invoices', loadChildren: './pages/private/invoices/invoices.module#InvoicesPageModule' },
+  { path: 'login-modal', loadChildren: './pages/public/login-modal/login-modal.module#LoginModalPageModule' },
+  { path: 'restricted-home', loadChildren: './pages/private/restricted-home/restricted-home.module#RestrictedHomePageModule' }
 ];
 
 @NgModule({
