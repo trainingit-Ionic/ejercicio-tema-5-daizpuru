@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
-import { delay, map } from "rxjs/operators";
+import { Observable } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+
+import { Storage } from '@ionic/storage';
 
 interface Usertoken {
-  username: string, 
-  token: string
+  username: string;
+  token: string;
 }
 interface SimulatedResponse {
-  loginStatus: 'OK' | 'ERROR',
-  usertoken?: Usertoken,
-  errorMessage?: string
+  loginStatus: 'OK' | 'ERROR';
+  usertoken?: Usertoken;
+  errorMessage?: string;
 }
 
 // --- Simulación de respuestas ---//
@@ -27,11 +29,11 @@ const BodySimulatedResponseLoginERROR: SimulatedResponse = {
 };
 
 const ResponseLoginOk$: Observable<SimulatedResponse> = Observable.create(
-  emmitter => {emmitter.next(BodySimulatedResponseLoginOK); emmitter.complete()}
+  emmitter => {emmitter.next(BodySimulatedResponseLoginOK); emmitter.complete(); }
 ).pipe(delay(1000));
 
 const ResponseLoginERROR$: Observable<SimulatedResponse> = Observable.create(
-  emmitter => {emmitter.next(BodySimulatedResponseLoginERROR); emmitter.complete()}
+  emmitter => {emmitter.next(BodySimulatedResponseLoginERROR); emmitter.complete(); }
 ).pipe(delay(1000));
 // --- Fin de simulación de respuestas ---//
 
@@ -43,7 +45,7 @@ export class AuthService {
   private usertoken: Usertoken;
   private lastLoginErrorMessage: string;
 
-  constructor() {
+  constructor(private storage: Storage) {
     this.usertoken = {
       username: '',
       token: ''
@@ -66,8 +68,8 @@ export class AuthService {
           respuesta => {
             this.usertoken = respuesta.usertoken;
             this.lastLoginErrorMessage = null;
-            localStorage.setItem('username', respuesta.usertoken.username);
-            localStorage.setItem('token', respuesta.usertoken.token);
+            this.storage.set('username', respuesta.usertoken.username);
+            this.storage.set('token', respuesta.usertoken.token);
             return true;
           })
       );
@@ -90,12 +92,12 @@ export class AuthService {
       username: '',
       token: ''
     };
-    localStorage.removeItem('username');
-    localStorage.removeItem('token');
+    this.storage.remove('username');
+    this.storage.remove('token');
   }
 
   isLogged(): boolean {
-    if (localStorage.getItem('token')) {
+    if (this.storage.get('token')) {
       return true;
     } else {
       return false;

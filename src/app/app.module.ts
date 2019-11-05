@@ -11,10 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { LoginModalPageModule } from './pages/public/login-modal/login-modal.module';
 
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, LoginModalPageModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, LoginModalPageModule, IonicStorageModule.forRoot()],
   providers: [
     StatusBar,
     SplashScreen,
